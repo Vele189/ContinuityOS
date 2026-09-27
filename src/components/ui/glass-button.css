@@ -1,0 +1,365 @@
+/*
+ * Liquid glass button — uiverse.io/shokat_2650/massive-snail-29, adapted for the
+ * dark theme: light text, deeper shadow, softer white rim. Used by GlassButton.
+ */
+
+@property --glass-angle-1 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: -75deg;
+}
+
+@property --glass-angle-2 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: -45deg;
+}
+
+.glass-btn-wrap {
+  --glass-time: 400ms;
+  --glass-ease: cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  border-radius: 999vw;
+  font-size: 14px;
+  pointer-events: none;
+  transition: all var(--glass-time) var(--glass-ease);
+}
+
+.glass-btn-wrap--block {
+  display: block;
+  width: 100%;
+}
+
+/* Shadow */
+.glass-btn-shadow {
+  --shadow-cutoff-fix: 2em;
+  position: absolute;
+  width: calc(100% + var(--shadow-cutoff-fix));
+  height: calc(100% + var(--shadow-cutoff-fix));
+  top: calc(0% - var(--shadow-cutoff-fix) / 2);
+  left: calc(0% - var(--shadow-cutoff-fix) / 2);
+  filter: blur(clamp(2px, 0.125em, 12px));
+  overflow: visible;
+  pointer-events: none;
+}
+
+.glass-btn-shadow::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: 999vw;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.35));
+  width: calc(100% - var(--shadow-cutoff-fix) - 0.25em);
+  height: calc(100% - var(--shadow-cutoff-fix) - 0.25em);
+  top: calc(var(--shadow-cutoff-fix) - 0.5em);
+  left: calc(var(--shadow-cutoff-fix) - 0.875em);
+  padding: 0.125em;
+  box-sizing: border-box;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  transition: all var(--glass-time) var(--glass-ease);
+  opacity: 1;
+}
+
+/* Button */
+.glass-btn {
+  --border-width: clamp(1px, 0.0625em, 4px);
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  display: block;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  pointer-events: auto;
+  z-index: 3;
+  background: linear-gradient(-75deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+  border-radius: 999vw;
+  box-shadow:
+    inset 0 0.125em 0.125em rgba(0, 0, 0, 0.2),
+    inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.18),
+    0 0.25em 0.125em -0.125em rgba(0, 0, 0, 0.5),
+    0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.06),
+    0 0 0 0 rgba(255, 255, 255, 1);
+  backdrop-filter: blur(clamp(1px, 0.125em, 4px));
+  -webkit-backdrop-filter: blur(clamp(1px, 0.125em, 4px));
+  transition: all var(--glass-time) var(--glass-ease);
+}
+
+.glass-btn:hover {
+  transform: scale(0.975);
+  backdrop-filter: blur(0.01em);
+  -webkit-backdrop-filter: blur(0.01em);
+  box-shadow:
+    inset 0 0.125em 0.125em rgba(0, 0, 0, 0.2),
+    inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.22),
+    0 0.15em 0.05em -0.1em rgba(0, 0, 0, 0.55),
+    0 0 0.05em 0.1em inset rgba(255, 255, 255, 0.14),
+    0 0 0 0 rgba(255, 255, 255, 1);
+}
+
+.glass-btn:focus-visible {
+  outline: 2px solid var(--color-accent-hover);
+  outline-offset: 3px;
+}
+
+/* Label */
+.glass-btn span {
+  position: relative;
+  display: block;
+  user-select: none;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+  font-weight: 500;
+  font-size: 1em;
+  line-height: 18px;
+  white-space: nowrap;
+  text-align: center;
+  color: var(--color-ink-muted);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 0em 0.25em 0.05em rgba(0, 0, 0, 0.35);
+  transition: all var(--glass-time) var(--glass-ease);
+  padding-inline: 1.5em;
+  padding-block: 0.875em;
+}
+
+.glass-btn:hover span {
+  color: var(--color-ink);
+  text-shadow: 0.025em 0.025em 0.025em rgba(0, 0, 0, 0.4);
+}
+
+/* Sheen */
+.glass-btn span::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: calc(100% - var(--border-width));
+  height: calc(100% - var(--border-width));
+  top: calc(0% + var(--border-width) / 2);
+  left: calc(0% + var(--border-width) / 2);
+  box-sizing: border-box;
+  border-radius: 999vw;
+  overflow: clip;
+  background: linear-gradient(
+    var(--glass-angle-2),
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.28) 40% 50%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  z-index: 3;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  transition:
+    background-position calc(var(--glass-time) * 1.25) var(--glass-ease),
+    --glass-angle-2 calc(var(--glass-time) * 1.25) var(--glass-ease);
+}
+
+.glass-btn:hover span::after {
+  background-position: 25% 50%;
+}
+
+.glass-btn:active span::after {
+  background-position: 50% 15%;
+  --glass-angle-2: -15deg;
+}
+
+/* Rim */
+.glass-btn::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: 999vw;
+  width: calc(100% + var(--border-width));
+  height: calc(100% + var(--border-width));
+  top: calc(0% - var(--border-width) / 2);
+  left: calc(0% - var(--border-width) / 2);
+  padding: var(--border-width);
+  box-sizing: border-box;
+  background:
+    conic-gradient(
+      from var(--glass-angle-1) at 50% 50%,
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0) 5% 40%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0) 60% 95%,
+      rgba(0, 0, 0, 0.6)
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.32));
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  transition:
+    all var(--glass-time) var(--glass-ease),
+    --glass-angle-1 500ms ease;
+  box-shadow: inset 0 0 0 calc(var(--border-width) / 2) rgba(255, 255, 255, 0.3);
+}
+
+.glass-btn:hover::after {
+  --glass-angle-1: -125deg;
+}
+
+.glass-btn:active::after {
+  --glass-angle-1: -75deg;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .glass-btn span::after,
+  .glass-btn:active span::after {
+    --glass-angle-2: -45deg;
+  }
+  .glass-btn::after,
+  .glass-btn:hover::after,
+  .glass-btn:active::after {
+    --glass-angle-1: -75deg;
+  }
+}
+
+/* Shadow on hover / press */
+.glass-btn-wrap:has(.glass-btn:hover) .glass-btn-shadow {
+  filter: blur(clamp(2px, 0.0625em, 6px));
+  transition: filter var(--glass-time) var(--glass-ease);
+}
+
+.glass-btn-wrap:has(.glass-btn:hover) .glass-btn-shadow::after {
+  top: calc(var(--shadow-cutoff-fix) - 0.875em);
+  opacity: 1;
+}
+
+/* Press: tilt back */
+.glass-btn-wrap:has(.glass-btn:active) {
+  transform: rotate3d(1, 0, 0, 25deg);
+}
+
+.glass-btn-wrap:has(.glass-btn:active) .glass-btn {
+  box-shadow:
+    inset 0 0.125em 0.125em rgba(0, 0, 0, 0.2),
+    inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.18),
+    0 0.125em 0.125em -0.125em rgba(0, 0, 0, 0.5),
+    0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.06),
+    0 0.225em 0.05em 0 rgba(0, 0, 0, 0.3),
+    0 0.25em 0 0 rgba(255, 255, 255, 0.2),
+    inset 0 0.25em 0.05em 0 rgba(0, 0, 0, 0.35);
+}
+
+.glass-btn-wrap:has(.glass-btn:active) .glass-btn-shadow {
+  filter: blur(clamp(2px, 0.125em, 12px));
+}
+
+.glass-btn-wrap:has(.glass-btn:active) .glass-btn-shadow::after {
+  top: calc(var(--shadow-cutoff-fix) - 0.5em);
+  opacity: 0.75;
+}
+
+.glass-btn-wrap:has(.glass-btn:active) span {
+  text-shadow: 0.025em 0.25em 0.05em rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-btn-wrap,
+  .glass-btn,
+  .glass-btn span,
+  .glass-btn span::after,
+  .glass-btn::after,
+  .glass-btn-shadow::after {
+    transition: none;
+  }
+  .glass-btn-wrap:has(.glass-btn:active) {
+    transform: none;
+  }
+}
+
+/*
+ * Glass pill: the same glass as .glass-btn, as a non-interactive highlight that
+ * slides between nav items. The rim and sheen sweep each time it lands.
+ */
+.glass-pill {
+  --border-width: 1px;
+  border-radius: 999vw;
+  background: linear-gradient(-75deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+  box-shadow:
+    inset 0 0.125em 0.125em rgba(0, 0, 0, 0.2),
+    inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.16),
+    0 0.2em 0.15em -0.1em rgba(0, 0, 0, 0.5),
+    0 0 0.1em 0.2em inset rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  overflow: hidden;
+}
+
+/* Rim */
+.glass-pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--border-width);
+  background:
+    conic-gradient(
+      from var(--glass-angle-1) at 50% 50%,
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0) 5% 40%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0) 60% 95%,
+      rgba(0, 0, 0, 0.6)
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.28));
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: glass-rim-sweep 700ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  pointer-events: none;
+}
+
+/* Sheen */
+.glass-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.22) 40% 50%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  animation: glass-sheen-sweep 600ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  pointer-events: none;
+}
+
+@keyframes glass-rim-sweep {
+  from {
+    --glass-angle-1: -75deg;
+  }
+  to {
+    --glass-angle-1: -125deg;
+  }
+}
+
+@keyframes glass-sheen-sweep {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 25% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-pill::after,
+  .glass-pill::before {
+    animation: none;
+  }
+}

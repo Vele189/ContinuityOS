@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (latin subset, SIL Open Font License): no third-party request, and Inter is preloaded in index.html */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700 800;
+  font-display: swap;
+  src: url("/fonts/open-sans-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Sarina";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/sarina-latin.woff2") format("woff2");
+}
+
+/* Design tokens — mirrored from the ContinuityOS Figma variables. */
+@theme {
+  /* Aceternity: Spotlight — sweeps in once on load */
+  --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+  --color-canvas: #010102;
+  --color-surface-1: #0f1011;
+  --color-surface-2: #141516;
+  --color-surface-3: #18191a;
+  --color-surface-4: #191a1b;
+  --color-hairline: #23252a;
+  --color-hairline-strong: #34343a;
+  --color-hairline-tertiary: #3e3e44;
+  --color-ink: #f7f8f8;
+  --color-ink-muted: #d0d6e0;
+  --color-ink-subtle: #8a8f98;
+  /* ≥4.5:1 on every surface, so it's safe for small text */
+  --color-ink-tertiary: #80858d;
+  --color-accent: #5e6ad2;
+  --color-accent-hover: #828fff;
+  /* Solid fills behind white text (accent-hover and success are too light for it) */
+  --color-accent-pressed: #4f5bc4;
+  --color-success-solid: #1e7f34;
+  /* Form field outline: ≥3:1 against the field background */
+  --color-field-border: #62656e;
+  --color-on-accent: #ffffff;
+  --color-success: #27a644;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-brand: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-script: "Sarina", cursive;
+}
+
+/* Typography scale from Figma text styles. */
+@utility text-display-lg {
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: -1.8px;
+  font-weight: 600;
+}
+@utility text-display-md {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  font-weight: 600;
+}
+@utility text-headline {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.6px;
+  font-weight: 600;
+}
+@utility text-card-title {
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  font-weight: 500;
+}
+@utility text-body-lg {
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: -0.1px;
+}
+@utility text-body {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.05px;
+}
+@utility text-body-sm {
+  font-size: 14px;
+  line-height: 1.5;
+}
+@utility text-caption {
+  font-size: 12px;
+  line-height: 1.4;
+}
+@utility text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.6px;
+}
+@utility text-mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Slow drift on the CTA background beams (Aceternity: Background Beams). */
+.cta-beams {
+  animation: beams-drift 14s ease-in-out infinite alternate;
+}
+@keyframes beams-drift {
+  from { transform: translateY(0); opacity: 0.85; }
+  to { transform: translateY(-24px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-beams { animation: none; }
+}
+
+/* Keep anchor targets clear of the sticky 64px nav. */
+section[id] {
+  scroll-margin-top: 96px;
+}
+
+/* Prism (04 — How we work): screen-blend the canvas so its black background
+   disappears into the page, and feather the edges so the rainbow never shows
+   a hard cut. Applied to the <canvas> only, so the stage labels stay crisp. */
+.prism-canvas canvas {
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 55%, transparent 100%);
+}
+
+/* Brand mark when the prism's spectrum lands on it: the nav logo on desktop
+   (html[data-logo-lit], set by NavBeam) or the in-canvas mark on mobile (.logo-lit). */
+[data-continuity-logo] {
+  transition: filter 0.6s ease;
+}
+html[data-logo-lit] [data-continuity-logo],
+.logo-lit img {
+  animation: logo-spectrum 2.4s linear infinite;
+}
+@keyframes logo-spectrum {
+  from {
+    filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px rgba(255, 120, 80, 0.9)) drop-shadow(0 0 24px rgba(130, 143, 255, 0.8)) hue-rotate(0deg);
+  }
+  to {
+    filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px rgba(255, 120, 80, 0.9)) drop-shadow(0 0 24px rgba(130, 143, 255, 0.8)) hue-rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-logo-lit] [data-continuity-logo],
+  .logo-lit img {
+    animation: none;
+    filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 16px rgba(130, 143, 255, 0.9));
+  }
+}
+
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-spotlight {
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, -40%);
+  }
+}
+
+/* CTA background: fast glowing slashes (see CtaBeams). */
+.cta-slash {
+  opacity: 0;
+  animation: cta-slash var(--slash-duration, 1.2s) cubic-bezier(0.55, 0, 0.45, 1) var(--slash-delay, 0s) infinite;
+}
+@keyframes cta-slash {
+  0% {
+    transform: translateX(-20vw);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(110vw);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Endless motion is what this setting asks to avoid, so the slashes hold still */
+  .cta-slash {
+    animation: none;
+  }
+}
+
+/* Statement: infinite marquee rows (direction set per row via animation-direction). */
+.statement-marquee {
+  animation: statement-marquee var(--marquee-duration, 40s) linear infinite;
+}
+@keyframes statement-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Rows hold still; the words still read in place */
+  .statement-marquee {
+    animation: none;
+  }
+}

@@ -1,0 +1,4 @@
+flare-glow.png, flare-glow.jpg, flare-streak.png, flare-disc.png
+
+Generated procedurally for ContinuityOS (radial falloff, angular rays).
+No third-party source material; owned by ContinuityOS.
