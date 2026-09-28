@@ -9,9 +9,12 @@ export function FinalCta() {
     <section id="contact" className="bg-canvas">
       <div className="mx-auto max-w-[1440px] px-4 pt-16 pb-24 sm:px-6 lg:px-[120px] lg:pb-32">
         {/* No panel of its own — sits on the page background */}
-        <div className="relative overflow-hidden">
-          {/* Edges feathered so the beams fade into the page instead of stopping at a box */}
-          <CtaBeams className="cta-beams absolute top-[-1px] left-[-1px] h-[720px] w-[1200px] max-w-none [mask-image:radial-gradient(ellipse_60%_60%_at_40%_40%,black_40%,transparent_100%)]" />
+        <div className="relative">
+          {/* Only the beams are clipped, so the form's dropdowns can extend past the section */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+            {/* Edges feathered so the beams fade into the page instead of stopping at a box */}
+            <CtaBeams className="cta-beams absolute top-[-1px] left-[-1px] h-[720px] w-[1200px] max-w-none [mask-image:radial-gradient(ellipse_60%_60%_at_40%_40%,black_40%,transparent_100%)]" />
+          </div>
           <div className="relative flex flex-col gap-12 p-6 sm:p-10 lg:min-h-[720px] lg:flex-row lg:gap-16 lg:p-16">
             <div className="flex min-w-0 flex-1 flex-col gap-6">
               <Eyebrow index="09" label="Start a conversation" />

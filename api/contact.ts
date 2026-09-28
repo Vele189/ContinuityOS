@@ -1,4 +1,5 @@
-import { budgetOptions, timelineOptions } from "../src/content/site";
+// .js extension: Vercel runs this as a native ES module, which needs full specifiers
+import { budgetOptions, timelineOptions } from "../src/content/site.js";
 
 type ContactPayload = {
   name?: string;

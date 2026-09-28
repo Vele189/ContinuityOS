@@ -275,7 +275,15 @@ function Select({ name, placeholder, options }: { name: string; placeholder: str
     return () => form.removeEventListener("reset", onReset);
   }, []);
 
+  // Open upward when the viewport has no room below the trigger
+  const [dropUp, setDropUp] = useState(false);
   const openList = () => {
+    const rect = root.current?.getBoundingClientRect();
+    if (rect) {
+      const listHeight = options.length * 40 + 16;
+      const below = window.innerHeight - rect.bottom;
+      setDropUp(below < listHeight && rect.top > below);
+    }
     setActive(Math.max(0, options.indexOf(value)));
     setOpen(true);
   };
@@ -368,11 +376,14 @@ function Select({ name, placeholder, options }: { name: string; placeholder: str
           <motion.ul
             id={listId}
             role="listbox"
-            initial={{ opacity: 0, y: -4, scale: 0.98 }}
+            initial={{ opacity: 0, y: dropUp ? 4 : -4, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
+            exit={{ opacity: 0, y: dropUp ? 4 : -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute inset-x-0 top-full z-30 mt-1.5 origin-top overflow-hidden rounded-lg border border-hairline-strong bg-surface-3 p-1 shadow-[0_16px_32px_rgba(0,0,0,0.55)]"
+            className={cn(
+              "absolute inset-x-0 z-30 overflow-hidden rounded-lg border border-hairline-strong bg-surface-3 p-1 shadow-[0_16px_32px_rgba(0,0,0,0.55)]",
+              dropUp ? "bottom-full mb-1.5 origin-bottom" : "top-full mt-1.5 origin-top",
+            )}
           >
             {options.map((option, i) => {
               const selected = option === value;
@@ -392,12 +403,15 @@ function Select({ name, placeholder, options }: { name: string; placeholder: str
                   }}
                   className={cn(
                     "flex cursor-pointer items-center justify-between gap-3 rounded-md px-2.5 py-2 text-body-sm transition-colors",
-                    i === active ? "bg-white/[0.07] text-ink" : "text-ink-muted",
+                    // Highlight in the field's own spectrum colour (--field, set by <Field>)
+                    i === active
+                      ? "bg-[color-mix(in_srgb,var(--field)_16%,transparent)] text-[var(--field)]"
+                      : "text-ink-muted",
                   )}
                 >
                   <span>{option}</span>
                   {selected && (
-                    <span aria-hidden className="text-accent-hover">
+                    <span aria-hidden className="text-[var(--field)]">
                       ✓
                     </span>
                   )}

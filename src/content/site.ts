@@ -174,7 +174,7 @@ export const problemPlaceholders = [
 ];
 
 export const timelineOptions = ["As soon as possible", "Within 1–3 months", "3–6 months", "Just exploring"];
-export const budgetOptions = ["Under $10k", "$10k – $50k", "$50k – $150k", "$150k+", "Not sure yet"];
+export const budgetOptions = ["Under R200k", "R200k – R1m", "R1m – R2.5m", "R2.5m+", "Not sure yet"];
 
 export const footerColumns = [
   { title: "Products", links: [{ label: "Continuum", href: "#continuum" }] },
