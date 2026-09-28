@@ -204,9 +204,7 @@ export const footerColumns = [
   {
     title: "Connect",
     links: [
-      { label: "LinkedIn", href: "https://www.linkedin.com" },
-      { label: "Instagram", href: "https://www.instagram.com" },
-      { label: "GitHub", href: "https://github.com" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/company/continuityos-zar/" },
     ],
   },
 ];

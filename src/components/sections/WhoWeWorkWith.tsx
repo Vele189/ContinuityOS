@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Section } from "@/components/ui/Section";
 import { MountWhenNear } from "@/components/ui/MountWhenNear";
+import { audienceProblems } from "@/content/site";
 
 /** three.js card ring, loaded in its own chunk. */
 const AudienceRing = lazy(() => import("@/components/audience/AudienceRing").then((m) => ({ default: m.AudienceRing })));
@@ -30,6 +31,20 @@ export function WhoWeWorkWith() {
           <AudienceRing />
         </Suspense>
       </MountWhenNear>
+
+      {/* Every statement, in the prerendered HTML for screen readers and search engines */}
+      <ul className="sr-only">
+        {audienceProblems.map((c) => (
+          <li key={c.tag}>
+            {c.tag}
+            <ul>
+              {c.quotes.map((q) => (
+                <li key={q}>{q}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }

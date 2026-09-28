@@ -10,7 +10,7 @@ Marketing site for ContinuityOS, built from the Figma file
 ```bash
 npm install
 npm run dev     # http://localhost:5173
-npm run build   # production build (dist/)
+npm run build   # production build (dist/), with the page prerendered to static HTML
 npm run preview # serve the build
 npm run lint
 ```
@@ -26,7 +26,7 @@ The contact form needs `RESEND_API_KEY` and, in production, `CONTACT_FROM` (see 
    - `CONTACT_FROM`: a sender on a domain verified in Resend, e.g. `ContinuityOS <website@continuityos.co.za>`
    - `CONTACT_TO` (optional): defaults to `info@continuityos.co.za`
 3. Deploy, then add the domain under **Settings → Domains**. The canonical URL, sitemap and social tags assume
-   `https://continuityos.co.za`; update `index.html`, `public/robots.txt` and `public/sitemap.xml` if it differs.
+   `https://www.continuityos.co.za`; update `index.html`, `public/robots.txt` and `public/sitemap.xml` if it differs.
 4. Optional: add a rate-limit rule for `/api/contact` in **Firewall** (the in-code limit is per instance).
 
 `api/contact.ts` deploys as a serverless function; `vercel.json` also sets the security headers (CSP), clean URLs
@@ -70,7 +70,10 @@ src/
     utils.ts        `cn()` helper (clsx + tailwind-merge aware of the type scale)
 ```
 
-## Performance notes
+## Performance and SEO notes
+
+- `npm run build` renders the page to HTML at build time (`src/entry-server.tsx` + `scripts/prerender.mjs`), so
+  crawlers and link previews see the full content; the browser then hydrates it (`src/main.tsx`).
 
 - Every three.js section loads only as it nears the viewport (`MountWhenNear`) and stops rendering when off-screen.
 - The hero globe mounts once the browser is idle and pauses when scrolled away.
@@ -95,5 +98,5 @@ src/
 
 ## Still to supply
 
-- Real social profile URLs (footer "Connect" links in `content/site.ts`)
+- More social profiles as they're created (footer "Connect" links in `content/site.ts`, `sameAs` in `index.html`)
 - Legal review of `public/privacy.html` and `public/terms.html`

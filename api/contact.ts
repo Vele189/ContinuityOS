@@ -1,5 +1,6 @@
 // .js extension: Vercel runs this as a native ES module, which needs full specifiers
 import { budgetOptions, timelineOptions } from "../src/content/site.js";
+import { renderLeadEmail, type Lead } from "./_email.js";
 
 type ContactPayload = {
   name?: string;
@@ -55,46 +56,6 @@ const oneLine = (value: string) => value.replace(/[\x00-\x1f\x7f]+/g, " ").trim(
 
 // Where leads go. Override with CONTACT_TO if it ever changes.
 const DEFAULT_TO = "info@continuityos.co.za";
-
-const escapeHtml = (value: string) =>
-  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
-
-/** Plain-text and HTML versions of the lead email. */
-function renderEmail(body: Required<Pick<ContactPayload, "name" | "email" | "organization" | "problem">> & ContactPayload) {
-  const rows: [string, string | undefined][] = [
-    ["Name", body.name],
-    ["Email", body.email],
-    ["Organization", body.organization],
-    ["Website", body.website],
-    ["Timeline", body.timeline],
-    ["Budget", body.budget],
-  ];
-  const filled = rows.filter(([, v]) => v?.trim());
-
-  const text = [
-    ...filled.map(([k, v]) => `${k}: ${v}`),
-    "",
-    "What they're trying to solve:",
-    body.problem,
-  ].join("\n");
-
-  const html = `
-    <div style="font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.5;color:#111">
-      <h2 style="margin:0 0 16px">New conversation request</h2>
-      <table cellpadding="6" style="border-collapse:collapse">
-        ${filled
-          .map(
-            ([k, v]) =>
-              `<tr><td style="color:#666;padding-right:16px">${k}</td><td>${escapeHtml(v!)}</td></tr>`,
-          )
-          .join("")}
-      </table>
-      <h3 style="margin:24px 0 8px">What they're trying to solve</h3>
-      <p style="white-space:pre-wrap;margin:0">${escapeHtml(body.problem)}</p>
-    </div>`;
-
-  return { text, html };
-}
 
 /**
  * Lead form endpoint. Validates the payload, then emails it to
@@ -174,8 +135,8 @@ export async function POST(request: Request) {
     console.error("[contact] CONTACT_FROM is not set; the Resend test sender only delivers to the account owner.");
   }
 
-  const lead = body as Parameters<typeof renderEmail>[0];
-  const { text, html } = renderEmail(lead);
+  const lead = body as Lead;
+  const { text, html } = renderLeadEmail(lead);
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",

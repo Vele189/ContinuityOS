@@ -106,7 +106,7 @@ function useTextures() {
   return textures;
 }
 
-/** `fallback` renders if WebGL is unavailable; it's also kept as an sr-only list. */
+/** `fallback` renders if WebGL is unavailable (the sr-only list lives in the section, outside this lazy chunk). */
 export function BenefitsCarousel({ fallback }: { fallback: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const textures = useTextures();
@@ -136,7 +136,6 @@ export function BenefitsCarousel({ fallback }: { fallback: ReactNode }) {
           )}
         </Canvas>
       </div>
-      <div className="sr-only">{fallback}</div>
     </div>
   );
 }

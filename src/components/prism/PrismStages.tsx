@@ -15,6 +15,7 @@ import { Rainbow, type RainbowMesh } from "./Rainbow";
 import type { ReflectApi, ReflectEvent } from "./Reflect";
 import { calculateRefractionAngle, lerp, lerpV3 } from "./util";
 import { createPrismGrade } from "./grade";
+import { StageList } from "./StageList";
 
 /**
  * The Continuity Model as a light experiment, after the pmndrs prism example
@@ -484,7 +485,7 @@ export function PrismStages() {
           dpr={[1, 1.5]}
           gl={{ antialias: false }}
           camera={{ position: [0, 0, 100], zoom: 70 }}
-          fallback={<StageList />}
+          fallback={<StageList copy />}
         >
           <color attach="background" args={[CANVAS_BG]} />
           <ResponsiveZoom zoom={zoom} />
@@ -522,22 +523,7 @@ export function PrismStages() {
       </p>
 
       {/* Full list for screen readers and search engines */}
-      <StageList className="sr-only" />
     </div>
   );
 }
 
-function StageList({ className }: { className?: string }) {
-  return (
-    <ol className={cn("grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4", className)}>
-      {modelStages.map((stage, i) => (
-        <li key={stage.name} className="flex flex-col gap-2 rounded-xl border border-hairline bg-surface-1 px-4 py-[18px]">
-          <h3 className="text-eyebrow text-ink uppercase">
-            {String(i + 1).padStart(2, "0")} {stage.name}
-          </h3>
-          <p className="text-body-sm text-ink-subtle">{stage.body}</p>
-        </li>
-      ))}
-    </ol>
-  );
-}

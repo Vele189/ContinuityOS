@@ -39,8 +39,9 @@ export function Hero() {
             <span className="bg-gradient-to-b from-[#fff3de] to-ink-subtle bg-clip-text text-transparent"> them.</span>
           </h1>
           <p className="max-w-[520px] text-body-lg text-ink-subtle">
-            ContinuityOS brings research, technology, creativity and execution together to turn
-            important problems into real, working solutions.
+            ContinuityOS is a South African studio for software development, product and UX design,
+            branding and AI automation. We bring research and execution together to turn important
+            problems into real, working solutions.
           </p>
           <p className="font-script text-[32px] leading-[1.2] text-ink sm:text-[40px]">it simply continues</p>
         </div>

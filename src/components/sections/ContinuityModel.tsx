@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { MountWhenNear } from "@/components/ui/MountWhenNear";
+import { StageList } from "@/components/prism/StageList";
 
 /** three.js + postprocessing are heavy, so the prism loads in its own chunk. */
 const PrismStages = lazy(() => import("@/components/prism/PrismStages").then((m) => ({ default: m.PrismStages })));
@@ -32,6 +33,8 @@ export function ContinuityModel() {
             <PrismStages />
           </Suspense>
         </MountWhenNear>
+        {/* The stages as text, in the prerendered HTML for screen readers and crawlers */}
+        <StageList className="sr-only" />
       </div>
     </section>
   );

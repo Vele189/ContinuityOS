@@ -18,8 +18,12 @@ export function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [problem, setProblem] = useState("");
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
-  // When the form appeared; the API drops submissions that come back implausibly fast
-  const [startedAt] = useState(() => Date.now());
+  // When the form appeared; the API drops submissions that come back implausibly fast.
+  // Recorded after mount: a render-time value would be baked into the prerendered HTML at build time.
+  const startedAt = useRef(0);
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
   const formRef = useRef<HTMLFormElement>(null);
 
   // After the server rejects fields, move focus to the first one (errors are rendered by now)
@@ -38,7 +42,7 @@ export function ContactForm() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const data = { ...Object.fromEntries(new FormData(form).entries()), started_at: startedAt.current };
     setStatus("loading");
     setErrors({});
     try {
@@ -77,8 +81,7 @@ export function ContactForm() {
         <span className="text-mono whitespace-nowrap text-ink-tertiary">~2 min</span>
       </div>
 
-      {/* Spam traps: a field only bots fill in, and the render time */}
-      <input type="hidden" name="started_at" value={startedAt} />
+      {/* Spam trap: a field only bots fill in (the render time is added on submit) */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
           Leave this empty

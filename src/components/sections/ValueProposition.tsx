@@ -141,9 +141,10 @@ function buildCards(activeIndex: number) {
 function CardDetails({ entry, index }: { entry: TimelineEntry; index: number }) {
   return (
     <div className="flex flex-col gap-6">
-      <h3 className="text-center text-[24px] leading-tight font-semibold tracking-[-0.4px] text-white">
+      {/* Not a heading: the timeline row already heads this phase; the card repeats it visually */}
+      <p className="text-center text-[24px] leading-tight font-semibold tracking-[-0.4px] text-white">
         {String(index).padStart(2, "0")} · {entry.title}
-      </h3>
+      </p>
       <p className="text-[19px] leading-[1.5] text-white">{entry.summary}</p>
       <ul className="flex list-disc flex-col gap-2.5 pl-5 text-body text-white marker:text-accent-hover">
         {entry.outputs.map((output) => (

@@ -246,20 +246,6 @@ export function AudienceRing() {
           Drag to spin · hover a card
         </p>
       </div>
-
-      {/* Every statement, for screen readers and search engines */}
-      <ul className="sr-only">
-        {audienceProblems.map((c) => (
-          <li key={c.tag}>
-            {c.tag}
-            <ul>
-              {c.quotes.map((q) => (
-                <li key={q}>{q}</li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

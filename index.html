@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-ZA">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,22 +7,22 @@
     <link rel="icon" href="/brand/logo-mark-light.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#010102" />
-    <title>ContinuityOS | Research, design and build</title>
+    <title>ContinuityOS | Software, Design &amp; AI Studio in South Africa</title>
     <meta
       name="description"
-      content="ContinuityOS brings research, technology, creativity and execution together to turn important problems into real, working solutions."
+      content="South African studio for software development, product and UX design, branding and AI automation. We research the problem, then design and build what solves it."
     />
-    <link rel="canonical" href="https://continuityos.co.za/" />
+    <link rel="canonical" href="https://www.continuityos.co.za/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ContinuityOS" />
-    <meta property="og:url" content="https://continuityos.co.za/" />
-    <meta property="og:title" content="ContinuityOS | Research, design and build" />
+    <meta property="og:url" content="https://www.continuityos.co.za/" />
+    <meta property="og:title" content="ContinuityOS | Software, Design &amp; AI Studio in South Africa" />
     <meta
       property="og:description"
-      content="ContinuityOS brings research, technology, creativity and execution together to turn important problems into real, working solutions."
+      content="South African studio for software development, product and UX design, branding and AI automation. We research the problem, then design and build what solves it."
     />
-    <meta property="og:image" content="https://continuityos.co.za/og.jpg" />
+    <meta property="og:image" content="https://www.continuityos.co.za/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="We research problems, design solutions, and build them. ContinuityOS." />
@@ -32,14 +32,30 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "ContinuityOS",
-        "url": "https://continuityos.co.za/",
-        "logo": "https://continuityos.co.za/apple-touch-icon.png",
-        "email": "info@continuityos.co.za",
-        "description": "ContinuityOS brings research, technology, creativity and execution together to turn important problems into real, working solutions.",
-        "areaServed": "ZA",
-        "address": { "@type": "PostalAddress", "addressCountry": "ZA" }
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://www.continuityos.co.za/#organization",
+            "name": "ContinuityOS",
+            "url": "https://www.continuityos.co.za/",
+            "logo": "https://www.continuityos.co.za/apple-touch-icon.png",
+            "image": "https://www.continuityos.co.za/og.jpg",
+            "email": "info@continuityos.co.za",
+            "description": "South African studio for software development, product and UX design, branding and AI automation. We research the problem, then design and build what solves it.",
+            "knowsAbout": ["Software development", "Product design", "UX design", "Branding", "AI automation", "Digital platforms"],
+            "areaServed": "ZA",
+            "address": { "@type": "PostalAddress", "addressCountry": "ZA" },
+            "sameAs": ["https://www.linkedin.com/company/continuityos-zar/"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.continuityos.co.za/#website",
+            "url": "https://www.continuityos.co.za/",
+            "name": "ContinuityOS",
+            "inLanguage": "en-ZA",
+            "publisher": { "@id": "https://www.continuityos.co.za/#organization" }
+          }
+        ]
       }
     </script>
 
@@ -47,16 +63,6 @@
   </head>
   <body class="antialiased">
     <div id="root"></div>
-    <noscript>
-      <main style="max-width: 720px; margin: 0 auto; padding: 96px 24px; font-family: system-ui, sans-serif; color: #d0d6e0">
-        <h1 style="color: #f7f8f8">We research problems, design solutions, and build them.</h1>
-        <p>
-          ContinuityOS brings research, technology, creativity and execution together to turn important problems into
-          real, working solutions.
-        </p>
-        <p>Contact: <a href="mailto:info@continuityos.co.za" style="color: #828fff">info@continuityos.co.za</a></p>
-      </main>
-    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

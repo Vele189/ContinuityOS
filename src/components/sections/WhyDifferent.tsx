@@ -29,9 +29,13 @@ export function WhyDifferent() {
       {/* Fetch and build the scene only as it nears the viewport */}
       <MountWhenNear className="min-h-[480px] w-full sm:min-h-[600px]">
         <Suspense fallback={null}>
-          <BenefitsCarousel fallback={<Benefits />} />
+          <BenefitsCarousel fallback={<Benefits copy />} />
         </Suspense>
       </MountWhenNear>
+      {/* The benefits as text, in the prerendered HTML for screen readers and crawlers */}
+      <div className="sr-only">
+        <Benefits />
+      </div>
     </Section>
   );
 }
@@ -376,11 +380,13 @@ function AfterPanel() {
 }
 
 /** Aceternity: Card Hover Effect — the highlight slides between cells. Fallback / sr-only for the carousel. */
-function Benefits() {
+/** `copy`: the visual-only duplicate (the WebGL fallback) — hidden from assistive tech, no heading tags. */
+function Benefits({ copy }: { copy?: boolean }) {
   const [hovered, setHovered] = useState(1);
+  const Title = copy ? "p" : "h3";
 
   return (
-    <ul className="grid w-full grid-cols-1 overflow-hidden rounded-xl border border-hairline sm:grid-cols-2 lg:grid-cols-3">
+    <ul aria-hidden={copy || undefined} className="grid w-full grid-cols-1 overflow-hidden rounded-xl border border-hairline sm:grid-cols-2 lg:grid-cols-3">
       {benefits.map((benefit, i) => (
         <li
           key={benefit.title}
@@ -402,7 +408,7 @@ function Benefits() {
           <span className={cn("relative text-mono transition-colors", hovered === i ? "text-accent-hover" : "text-ink-tertiary")}>
             {String(i + 1).padStart(2, "0")}
           </span>
-          <h3 className="relative text-card-title text-ink">{benefit.title}</h3>
+          <Title className="relative text-card-title text-ink">{benefit.title}</Title>
           <p className="relative text-body-sm text-ink-subtle">{benefit.body}</p>
         </li>
       ))}
